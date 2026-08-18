@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lyrics Calculator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #111;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 90%;
+            max-width: 540px;
+            margin: 70px auto;
+        }
+
+        /* WHITE LYRICS BOX */
+        #display {
+            width: 100%;
+            height: 110px;
+            background: black;
+            color: white;
+            border: 2px solid #777;
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            padding: 20px;
+            font-size: 30px;
+            text-align: left;
+
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        button {
+            height: 90px;
+            border: none;
+            border-radius: 15px;
+            background: #eee;
+            color: black;
+            font-size: 28px;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .equals {
+            background: #ff9d00;
+            color: white;
+        }
+
+        .title {
+            color: white;
+            text-align: center;
+            font-size: 28px;
+            margin-top: 70px;
+        }
+
+        @media (max-width: 400px) {
+
+            .calculator {
+                width: 92%;
+                margin-top: 40px;
+            }
+
+            button {
+                height: 70px;
+                font-size: 22px;
+            }
+
+            #display {
+                height: 100px;
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+<audio id="music" src="music.mp3"></audio>    
+
+<body>
+
+<div class="calculator">
+
+    <!-- LYRICS DISPLAY -->
+    <div id="display"></div>
+
+    <!-- CALCULATOR -->
+    <div class="buttons">
+
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="clearDisplay()">C</button>
+
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('+')">+</button>
+
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('-')">-</button>
+
+        <button onclick="press('0')">0</button>
+        <button onclick="press('*')">*</button>
+        <button onclick="press('/')">/</button>
+        <button class="equals" onclick="startLyrics()">=</button>
+
+    </div>
+
+    <div class="title">
+        
+    </div>
+
+</div>
+
+
+<script>
+
+    /* LYRICS */
+    let lyrics = [
+        ["...", 2000],
+        ["Wag kang bibitaw", 7300],
+        ["Wag kang mawawala", 4500],
+        ["oh aking...", 4600],
+        ["dinadala...", 2500],
+        ["Ang bawat...", 4000],
+        ["piyesa ng", 3000],
+        ["Ikawwww...", 4000],
+        ["Anong gagawin...", 2000],
+        ["Kung wala ka???",5500],
+        ["Anong gagawin...", 2000],
+        ["Kung wala ka???", 4000],
+        ["Anong gagawin...", 2000],
+        ["Kung wala ka??", 3000],
+        ["KUNG WALA KA!!??????", 4000],
+        
+        
+        
+        
+    ];
+
+    let currentLine = 0;
+    let displayingLyrics = false;
+
+
+    /* BUTTON */
+    function press(key) {
+
+        if (displayingLyrics) return;
+
+        document.getElementById("display").innerHTML += key;
+    }
+
+
+    /* CLEAR */
+    function clearDisplay() {
+
+        if (displayingLyrics) return;
+
+        document.getElementById("display").innerHTML = "";
+    }
+
+
+    /* START LYRICS */
+    function startLyrics() {
+
+    let music = document.getElementById("music");
+
+    music.currentTime = 0;
+    music.play();
+
+    displayingLyrics = true;
+    currentLine = 0;
+
+    document.getElementById("display").innerHTML = "";
+
+    showLyrics();
+}                          
+
+
+    /* SHOW LYRICS */
+    function showLyrics() {
+
+        if (currentLine >= lyrics.length) {
+
+            displayingLyrics = false;
+            document.getElementById("display").innerHTML = "";
+
+            return;
+        }
+
+        let display = document.getElementById("display");
+
+        let line = lyrics[currentLine][0];
+        let delay = lyrics[currentLine][1];
+
+        display.innerHTML = line;
+
+        currentLine++;
+
+        setTimeout(showLyrics, delay);
+    }
+
+</script>
+
+</body>
+</html>
